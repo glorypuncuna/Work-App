@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegisterActivity"
+    android:padding="35dp"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <EditText
+    android:id="@+id/edt_name_r"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="3dp"
+    android:hint="@string/name"
+    android:backgroundTint="#808080"
+    android:singleLine="true" />
+
+    <EditText
+        android:id="@+id/edt_email_r"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="3dp"
+        android:hint="@string/email"
+        android:backgroundTint="#808080"
+        android:singleLine="true"/>
+
+    <EditText
+        android:id="@+id/edt_password_r"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="3dp"
+        android:hint="@string/password"
+        android:backgroundTint="#808080"
+        android:singleLine="true"/>
+
+    <Button
+        android:id="@+id/btn_register_r"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/register"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+
+        />
+
+
+</LinearLayout>
