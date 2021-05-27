@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -72,8 +74,12 @@ public class MainActivity extends AppCompatActivity {
                 } catch (JSONException e){
                     Toast.makeText(MainActivity.this, "Load Menu Failed", Toast.LENGTH_LONG).show();
                 }
+
             }
         };
+        MenuRequest MenuRequest = new MenuRequest(responseListener);
+        RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+        queue.add(MenuRequest);
     }
 
 
