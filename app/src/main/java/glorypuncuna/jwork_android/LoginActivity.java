@@ -45,6 +45,8 @@ public class LoginActivity extends AppCompatActivity {
                             JSONObject jsonObject = new JSONObject(response);
                             if(jsonObject != null){
                                 Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                startActivity(intent);
                             }
                         }catch (JSONException e){
                             Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_LONG).show();
@@ -54,8 +56,6 @@ public class LoginActivity extends AppCompatActivity {
                 LoginRequest LoginRequest = new LoginRequest(email, password, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
                 queue.add(LoginRequest);
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
             }
         });
 

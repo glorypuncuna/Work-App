@@ -1,7 +1,6 @@
 package glorypuncuna.jwork_android;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +9,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class MainListAdapter extends BaseExpandableListAdapter {
     private Context _context;
-    private ArrayList<Recruiter> _listDataHeader; // header titles
-    // child data in format of header title, child title
+    private ArrayList<Recruiter> _listDataHeader;
     private HashMap<Recruiter, ArrayList<Job>> _listDataChild;
 
     public MainListAdapter(Context context, ArrayList<Recruiter> listDataHeader,
@@ -27,8 +24,7 @@ public class MainListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getChild(int groupPosition, int childPosititon) {
-        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
-                .get(childPosititon);
+        return this._listDataChild.get(this._listDataHeader.get(groupPosition)).get(childPosititon);
     }
 
     @Override
@@ -37,28 +33,23 @@ public class MainListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int groupPosition, final int childPosition,
-                             boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 
-        final String childText = (String) getChild(groupPosition, childPosition);
+        final String childText = ((Job) getChild(groupPosition, childPosition)).getName();
 
         if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this._context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater infalInflater = (LayoutInflater) this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.layout_job, null);
         }
 
-        TextView txtListChild = (TextView) convertView
-                .findViewById(R.id.lblListItem);
-
+        TextView txtListChild = (TextView) convertView.findViewById(R.id.lblListItem);
         txtListChild.setText(childText);
         return convertView;
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
-                .size();
+        return this._listDataChild.get(this._listDataHeader.get(groupPosition)).size();
     }
 
     @Override
@@ -77,18 +68,14 @@ public class MainListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getGroupView(int groupPosition, boolean isExpanded,
-                             View convertView, ViewGroup parent) {
-        String headerTitle = (String) getGroup(groupPosition);
+    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+        final String headerTitle = ((Recruiter) getGroup(groupPosition)).getName();
         if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this._context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater infalInflater = (LayoutInflater) this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.layout_recruiter, null);
         }
 
-        TextView lblListHeader = (TextView) convertView
-                .findViewById(R.id.lblListHeader);
-        lblListHeader.setTypeface(null, Typeface.BOLD);
+        TextView lblListHeader = (TextView) convertView.findViewById(R.id.lblListHeader);
         lblListHeader.setText(headerTitle);
 
         return convertView;

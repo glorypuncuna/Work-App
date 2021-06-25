@@ -3,12 +3,15 @@ package glorypuncuna.jwork_android;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,68 +22,82 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
-    MainListAdapter listAdapter;
+    protected ArrayList<Job> jobIdList = new ArrayList<>();
+    ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
-    private ArrayList<Recruiter> listRecruiter = new ArrayList<>();
-    private ArrayList<Job> jobIdList = new ArrayList<>();
-    private HashMap<Recruiter, ArrayList<Job>> childMapping = new HashMap<>();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        expListView = (ExpandableListView) findViewById(R.id.lvExp);
-
-        // preparing list data
         refreshList();
-
-        listAdapter = new MainListAdapter(this, listRecruiter, childMapping);
-
-        expListView.setAdapter(listAdapter);
     }
 
-    protected void refreshList(){
-        Response.Listener<String> responseListener = new Response.Listener<String>(){
-            @Override
-            public void onResponse(String response){
-                try{
-                    JSONArray jsonResponse = new JSONArray(response);
-                    if(jsonResponse != null){
-                        for(int i = 0; i<jsonResponse.length(); i++){
-                            JSONObject job = jsonResponse.getJSONObject(i);
-                            JSONObject recruiter = job.getJSONObject("recruiter");
-                            JSONObject location = recruiter.getJSONObject("location");
+    public void refreshList(){
+        HashMap<Recruiter, ArrayList<Job>> childMapping = new HashMap<>();
+        ArrayList<Recruiter> listRecruiter = new ArrayList<>();
+        Response.Listener<String> responseListener = response -> {
+            try{
+                JSONArray jsonResponse = new JSONArray(response);
+                if(jsonResponse != null){
+                    for(int i = 0; i<jsonResponse.length(); i++){
+                        Gson gson = new Gson();
+                        JSONObject job = jsonResponse.getJSONObject(i);
+                        JSONObject recruiter = job.getJSONObject("recruiter");
+                        JSONObject location = recruiter.getJSONObject("location");
 
-                            Location l = new Location(location.getJSONObject("province").toString(), location.getJSONObject("city").toString(), location.getJSONObject("description").toString());
-                            Recruiter r = new Recruiter(Integer.valueOf(recruiter.getJSONObject("id").toString()), recruiter.getJSONObject("name").toString(), recruiter.getJSONObject("email").toString(), recruiter.getJSONObject("phoneNumber").toString(), l);
-                            listRecruiter.add(r);
-                            Job j = new Job(Integer.valueOf(job.getJSONObject("id").toString()), job.getJSONObject("name").toString(), r, Integer.valueOf(job.getJSONObject("fee").toString()), job.getJSONObject("category").toString());
-                            jobIdList.add(j);
-                        }
+                        Recruiter r = new Recruiter(recruiter.getInt("id"),
+                                recruiter.getString("name"),
+                                recruiter.getString("email"),
+                                recruiter.getString("phoneNumber"),
+                                gson.fromJson(location.toString(), Location.class));
+
+                        boolean recDoub = false;
                         for(Recruiter rec: listRecruiter){
-                            ArrayList<Job> temp = new ArrayList<>();
-                            for(Job job2 : jobIdList){
-                                if(job2.getRecruiter().getName().equals(rec.getName()) ||
-                                job2.getRecruiter().getEmail().equals(rec.getEmail()) ||
-                                job2.getRecruiter().getPhoneNumber().equals(rec.getPhoneNumber())){
-                                    temp.add(job2);
-                                }
+                            if(recruiter.getInt("id") == rec.getId()){
+                                recDoub = true;
+                                break;
                             }
-                            childMapping.put(rec,temp);
                         }
-                    }
-                } catch (JSONException e){
-                    Toast.makeText(MainActivity.this, "Load Menu Failed", Toast.LENGTH_LONG).show();
-                }
+                        if(recDoub == false){
+                            listRecruiter.add(r);
+                        }
 
+                        Job j = new Job(job.getInt("id"),
+                                job.getString("name"),
+                                gson.fromJson(recruiter.toString(), Recruiter.class),
+                                job.getInt("fee"),
+                                job.getString("category"));
+
+                        jobIdList.add(j);
+                    }
+                    for(Recruiter rec: listRecruiter){
+                        ArrayList<Job> temp = new ArrayList<>();
+                        for(Job job2 : jobIdList){
+                            if(job2.getRecruiter().getName().equals(rec.getName()) ||
+                                    job2.getRecruiter().getEmail().equals(rec.getEmail()) ||
+                                    job2.getRecruiter().getPhoneNumber().equals(rec.getPhoneNumber())){
+                                temp.add(job2);
+                            }
+                        }
+                        childMapping.put(rec,temp);
+                    }
+                }
+                adapter(listRecruiter, childMapping);
+            } catch (JSONException e){
+                Toast.makeText(MainActivity.this, "Load Menu Failed", Toast.LENGTH_LONG).show();
             }
         };
-        MenuRequest MenuRequest = new MenuRequest(responseListener);
+        MenuRequest menuRequest = new MenuRequest(responseListener);
         RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
-        queue.add(MenuRequest);
+        queue.add(menuRequest);
     }
 
+    private void adapter(ArrayList<Recruiter> listRecruiter, HashMap<Recruiter, ArrayList<Job>> childMapping){
+        expListView = (ExpandableListView)  findViewById(R.id.lvExp);
+        listAdapter = new MainListAdapter(this, listRecruiter, childMapping);
+        expListView.setAdapter(listAdapter);
+    }
 
 }
