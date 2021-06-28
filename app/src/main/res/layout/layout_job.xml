@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="55dip"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/blue_chosen">
 
     <TextView
         android:id="@+id/lblListItem"
@@ -12,6 +13,7 @@
         android:textSize="17sp"
         android:paddingHorizontal="50dp"
         android:paddingVertical="15dp"
+        android:textColor="@color/white"
         android:text="Job"
         />
 </LinearLayout>

@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="8dp"
-    android:background="#000008">
+    android:background="#FFFFFF">
 
     <TextView
         android:id="@+id/lblListHeader"
@@ -14,7 +14,7 @@
         android:textSize="20sp"
         android:paddingHorizontal="20dp"
         android:paddingVertical="10dp"
-        android:textColor="#f9f93d"
+        android:textColor="@color/blue_chosen"
         android:text="Test" />
 
 </LinearLayout>

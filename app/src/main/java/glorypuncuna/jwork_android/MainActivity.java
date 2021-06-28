@@ -2,10 +2,11 @@ package glorypuncuna.jwork_android;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -25,12 +26,16 @@ public class MainActivity extends AppCompatActivity {
     protected ArrayList<Job> jobIdList = new ArrayList<>();
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
+    int jobseekerId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
+        jobseekerId = getIntent().getIntExtra("jobseekerId", 0);
         refreshList();
     }
 
@@ -98,6 +103,22 @@ public class MainActivity extends AppCompatActivity {
         expListView = (ExpandableListView)  findViewById(R.id.lvExp);
         listAdapter = new MainListAdapter(this, listRecruiter, childMapping);
         expListView.setAdapter(listAdapter);
-    }
 
+        expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                Job selectedJob = childMapping.get(listRecruiter.get(groupPosition)).get(childPosition);
+
+                Intent intentToApply = new Intent(MainActivity.this, ApplyJobActivity.class);
+                intentToApply.putExtra("jobId", selectedJob.getId());
+                intentToApply.putExtra("jobName", selectedJob.getName());
+                intentToApply.putExtra("jobCategory", selectedJob.getCategory());
+                intentToApply.putExtra("jobFee", (double) selectedJob.getFee());
+                intentToApply.putExtra("jobseekerId", jobseekerId);
+                startActivity(intentToApply);
+
+                return false;
+            }
+        });
+    }
 }

@@ -1,6 +1,6 @@
 package glorypuncuna.jwork_android;
 
-public class Job {
+public class Job{
     //Bagian ini digunakan untuk mendeklarasikan semua instance variable dalam Class Job
     private int id;
     private String name;
