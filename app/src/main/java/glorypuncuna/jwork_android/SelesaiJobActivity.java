@@ -29,7 +29,7 @@ public class SelesaiJobActivity extends AppCompatActivity {
     private ConstraintLayout clSelesai;
     private int jobseekerId, invoiceId;
     private double  fee, totalFee;
-    private String jobName, referralCode;
+    private String jobName, referralCode, dateS;
     private TextView tvInvoiceStatus;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,11 +138,11 @@ public class SelesaiJobActivity extends AppCompatActivity {
                         tvInvoiceId.setText("Invoice ID: " + invoiceId);
                         tvJobseekerName.setText(jobseeker.getString("name"));
 
-                        //String dateS = invoice.getString("date");
-                        //Date date = new SimpleDateFormat("DD Mmm YYYY").parse(dateS);
-                        //dateS = new SimpleDateFormat("DD Mmm YYYY").format(date);
+                        dateS = invoice.getString("date");
+                        Date date=new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").parse(dateS);
+                        dateS = new SimpleDateFormat("E, MMM dd yyyy").format(date);
 
-                        //tvInvoiceDate.setText(dateS);
+                        tvInvoiceDate.setText(dateS);
                         tvInvoiceStatus.setText(invoice.getString("invoiceStatus"));
                         if(invoice.getString("paymentType").equals("EwalletPayment")){
                             tvStaticReferralCode.setVisibility(View.VISIBLE);
@@ -165,7 +165,9 @@ public class SelesaiJobActivity extends AppCompatActivity {
                 Intent intent = new Intent(SelesaiJobActivity.this, MainActivity.class);
                 intent.putExtra("jobseekerId",jobseekerId);
                 startActivity(intent);
-            }
+            } catch (ParseException e) {
+               Toast.makeText(SelesaiJobActivity.this, dateS, Toast.LENGTH_LONG).show();
+           }
         };
         JobFetchRequest jobFetchRequest = new JobFetchRequest(jobseekerId, responseListener);
         RequestQueue queue = Volley.newRequestQueue(SelesaiJobActivity.this);
