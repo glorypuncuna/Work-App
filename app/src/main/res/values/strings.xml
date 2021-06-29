@@ -17,8 +17,8 @@
     <string name="total_fee">Total Fee</string>
     <string name="count">Count</string>
     <string name="apply">Apply</string>
-    <string name="invoice_id">Invoice ID</string>
-    <string name="jobseeker_name">Jobseeker Name:</string>
+    <string name="invoice_id">Invoice</string>
+    <string name="jobseeker_name">Jobseeker Name</string>
     <string name="invoice_date">Invoice Date</string>
     <string name="payment_type">Payment Type</string>
     <string name="invoice_status">Invoice Status</string>

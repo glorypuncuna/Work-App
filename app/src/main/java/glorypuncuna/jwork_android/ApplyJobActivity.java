@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -33,6 +34,16 @@ public class ApplyJobActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
+        ImageView btnBack = findViewById(R.id.btn_back);
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ApplyJobActivity.this, MainActivity.class);
+                intent.putExtra("jobseekerId",jobseekerId);
+                startActivity(intent);
+            }});
+
         TextView tvJobName = findViewById(R.id.job_name);
         TextView tvJobCategory = findViewById(R.id.job_category);
         TextView tvJobFee = findViewById(R.id.job_fee);
@@ -79,6 +90,7 @@ public class ApplyJobActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(selectedPayment.equals("Bank")){
+                    referralCode = "";
                     totalFee = jobFee;
                     tvTotalFee.setText(Double.toString(totalFee));
                     btnApply.setVisibility(View.VISIBLE);
@@ -92,7 +104,7 @@ public class ApplyJobActivity extends AppCompatActivity {
                             try{
                                 JSONObject jsonObject = new JSONObject(response);
                                 if(jsonObject != null){
-                                    if(jsonObject.getString("referralCode") != null && jsonObject.getBoolean("active") &&  jobFee > jsonObject.getInt("minTotalFee")){
+                                    if(jsonObject.getString("referralCode") != "" && jsonObject.getBoolean("active") &&  jobFee > jsonObject.getInt("minTotalFee")){
                                         totalFee = jobFee + jsonObject.getInt("extraFee");
                                         tvTotalFee.setText(Double.toString(totalFee));
                                     }else{
@@ -101,6 +113,8 @@ public class ApplyJobActivity extends AppCompatActivity {
                                     }
                                 }
                             }catch(JSONException e){
+                                totalFee = jobFee;
+                                tvTotalFee.setText(Double.toString(totalFee));
                                 referralCode = "";
                                 Toast.makeText(ApplyJobActivity.this,"No Bonus!", Toast.LENGTH_SHORT).show();
                             }};
@@ -134,6 +148,7 @@ public class ApplyJobActivity extends AppCompatActivity {
                                 intent.putExtra("jobName", jobName);
                                 intent.putExtra("fee", jobFee);
                                 intent.putExtra("totalFee", totalFee);
+                                intent.putExtra("referralCode", referralCode);
                                 startActivity(intent);
                             }
                         }catch(JSONException e){

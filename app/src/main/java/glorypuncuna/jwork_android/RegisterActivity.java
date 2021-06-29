@@ -2,6 +2,7 @@ package glorypuncuna.jwork_android;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -44,6 +45,8 @@ public class RegisterActivity extends AppCompatActivity {
                             JSONObject jsonObject = new JSONObject(response);
                             if(jsonObject != null){
                                 Toast.makeText(RegisterActivity.this, "Register Successful", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                startActivity(intent);
                             }
                         }catch (JSONException e){
                             Toast.makeText(RegisterActivity.this, "Register Failed", Toast.LENGTH_LONG).show();

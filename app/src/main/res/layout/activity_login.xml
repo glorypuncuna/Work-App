@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginVertical="3dp"
         android:hint="@string/password"
+        android:inputType="textPassword"
         android:backgroundTint="#808080"
         android:singleLine="true"/>
 
@@ -33,7 +34,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="@string/login"
-        android:textColor="@color/black"
         android:textStyle="bold"
         />
 
@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/register_now"
-        android:textColor="#2196F3"
+        android:textColor="@color/blue_chosen"
         android:clickable="true"/>
 
 </LinearLayout>

@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ApplyJobActivity"
-    android:background="#D0E0E0E0"
-    android:padding="15dp">
+    android:background="@color/blue_chosen"
+    android:paddingHorizontal="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -18,18 +18,16 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginBottom="70dp">
 
-                <TextView
-                    android:id="@+id/pesanan"
-                    android:layout_width="match_parent"
+                <include
+                    android:id="@+id/include1"
+                    layout="@layout/action_bar_applyjob"
+                    android:layout_marginBottom="50dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginHorizontal="20dp"
-                    android:text="@string/apply_job"
-                    android:textSize="25sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_width="match_parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
                 <TextView
                     android:id="@+id/staticJobName"
@@ -40,7 +38,7 @@
                     android:layout_marginTop="30dp"
                     android:layout_marginHorizontal="30dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/pesanan"/>
+                    app:layout_constraintTop_toBottomOf="@+id/include1"/>
 
                 <TextView
                     android:id="@+id/job_name"
@@ -48,9 +46,10 @@
                     android:layout_height="wrap_content"
                     android:text="@string/job_name"
                     android:textSize="15sp"
+                    android:textColor="@color/blue_chosen"
                     android:layout_marginTop="30dp"
                     android:layout_marginHorizontal="30dp"
-                    app:layout_constraintTop_toBottomOf="@+id/pesanan"
+                    app:layout_constraintTop_toBottomOf="@+id/include1"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
                 <TextView
@@ -70,6 +69,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/job_category"
                     android:textSize="15sp"
+                    android:textColor="@color/blue_chosen"
                     android:layout_marginVertical="20dp"
                     android:layout_marginHorizontal="30dp"
                     app:layout_constraintTop_toBottomOf="@+id/job_name"
@@ -81,7 +81,7 @@
                     android:layout_width="wrap_content"
                     android:text="@string/job_fee"
                     android:textSize="15sp"
-                    android:layout_marginVertical="30dp"
+                    android:layout_marginVertical="20dp"
                     android:layout_marginHorizontal="30dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/staticCategory"/>
@@ -92,7 +92,9 @@
                     android:layout_height="wrap_content"
                     android:text="@string/job_fee"
                     android:textSize="15sp"
-                    android:layout_marginVertical="30dp"
+
+                    android:textColor="@color/blue_chosen"
+                    android:layout_marginVertical="20dp"
                     android:layout_marginHorizontal="30dp"
                     app:layout_constraintTop_toBottomOf="@+id/job_category"
                     app:layout_constraintEnd_toEndOf="parent"/>
@@ -103,7 +105,7 @@
                     android:layout_width="wrap_content"
                     android:text="@string/payment_method"
                     android:textSize="15sp"
-                    android:layout_marginVertical="30dp"
+                    android:layout_marginVertical="20dp"
                     android:layout_marginHorizontal="30dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/staticFee"/>
@@ -121,13 +123,15 @@
                         android:id="@+id/ewallet"
                         android:layout_width="wrap_content"
                         android:layout_height="35dp"
-                        android:text="@string/e_wallet" />
+                        android:text="@string/e_wallet"
+                        android:textColor="@color/blue_chosen"/>
 
                     <RadioButton
                         android:id="@+id/bank"
                         android:layout_width="wrap_content"
                         android:layout_height="35dp"
-                        android:text="@string/bank" />
+                        android:text="@string/bank"
+                        android:textColor="@color/blue_chosen"/>
                 </RadioGroup>
 
                 <TextView
@@ -136,7 +140,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/referral_code"
                     android:textSize="15sp"
-                    android:layout_marginVertical="30dp"
+                    android:layout_marginVertical="10dp"
                     android:layout_marginHorizontal="30dp"
                     app:layout_constraintTop_toBottomOf="@+id/rg_payment"
                     app:layout_constraintStart_toStartOf="parent"/>
@@ -147,7 +151,8 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/referral_code"
                     android:textSize="15sp"
-                    android:layout_marginVertical="20dp"
+                    android:textColor="@color/blue_chosen"
+                    android:layout_marginVertical="5dp"
                     android:layout_marginHorizontal="30dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/rg_payment" />
@@ -158,7 +163,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/total_fee"
                     android:textSize="15sp"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginHorizontal="30dp"
                     app:layout_constraintTop_toBottomOf="@+id/textCode"
                     app:layout_constraintStart_toStartOf="parent"/>
@@ -169,7 +174,8 @@
                     android:layout_width="wrap_content"
                     android:text="@string/total_fee"
                     android:textSize="15sp"
-                    android:layout_marginVertical="20dp"
+                    android:textColor="@color/blue_chosen"
+                    android:layout_marginVertical="10dp"
                     android:layout_marginHorizontal="30dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/referral_code"/>
@@ -179,17 +185,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/count"
-                    android:textColor="@color/black"
                     app:layout_constraintTop_toBottomOf="@+id/staticTotalFee"
                     android:layout_marginHorizontal="30dp"
-                    android:layout_marginTop="60dp"/>
+                    android:layout_marginTop="20dp"/>
 
                 <Button
                     android:id="@+id/btnApply"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/apply"
-                    android:textColor="@color/black"
                     app:layout_constraintTop_toBottomOf="@id/hitung"
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_marginHorizontal="30dp"
