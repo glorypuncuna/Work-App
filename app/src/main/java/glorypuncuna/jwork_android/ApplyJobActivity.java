@@ -24,7 +24,7 @@ import java.util.ArrayList;
 public class ApplyJobActivity extends AppCompatActivity {
     private int jobseekerId, jobId, bonus;
     private String jobName, jobCategory, selectedPayment, referralCode;
-    private double jobFee;
+    private double jobFee, totalFee;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +49,11 @@ public class ApplyJobActivity extends AppCompatActivity {
         textCode.setVisibility(View.INVISIBLE);
         edtReferralCode.setVisibility(View.INVISIBLE);
 
+        jobId = getIntent().getIntExtra("jobId", 0);
         jobName = getIntent().getStringExtra("jobName");
         jobCategory = getIntent().getStringExtra("jobCategory");
         jobFee = getIntent().getDoubleExtra("jobFee", 0);
-
         jobseekerId = getIntent().getIntExtra("jobseekerId", 0);
-        jobId = getIntent().getIntExtra("jobId", 0);
 
         tvTotalFee.setText("0");
         tvJobName.setText(jobName);
@@ -80,7 +79,8 @@ public class ApplyJobActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(selectedPayment.equals("Bank")){
-                    tvTotalFee.setText(Double.toString(jobFee));
+                    totalFee = jobFee;
+                    tvTotalFee.setText(Double.toString(totalFee));
                     btnApply.setVisibility(View.VISIBLE);
                     btnHitung.setVisibility(View.INVISIBLE);
                 } else if (selectedPayment.equals("E-Wallet")){
@@ -93,9 +93,11 @@ public class ApplyJobActivity extends AppCompatActivity {
                                 JSONObject jsonObject = new JSONObject(response);
                                 if(jsonObject != null){
                                     if(jsonObject.getString("referralCode") != null && jsonObject.getBoolean("active") &&  jobFee > jsonObject.getInt("minTotalFee")){
-                                        tvTotalFee.setText(Double.toString(jobFee + jsonObject.getInt("extraFee")));
+                                        totalFee = jobFee + jsonObject.getInt("extraFee");
+                                        tvTotalFee.setText(Double.toString(totalFee));
                                     }else{
-                                        tvTotalFee.setText(Double.toString(jobFee));
+                                        totalFee = jobFee;
+                                        tvTotalFee.setText(Double.toString(totalFee));
                                     }
                                 }
                             }catch(JSONException e){
@@ -106,7 +108,8 @@ public class ApplyJobActivity extends AppCompatActivity {
                         RequestQueue queue = Volley.newRequestQueue(ApplyJobActivity.this);
                         queue.add(bonusRequest);
                     }else{
-                        tvTotalFee.setText(Double.toString(jobFee));
+                        totalFee = jobFee;
+                        tvTotalFee.setText(Double.toString(totalFee));
                     }
                 }else{
                     Toast.makeText(ApplyJobActivity.this,"Method is failed!", Toast.LENGTH_SHORT).show();
@@ -127,7 +130,10 @@ public class ApplyJobActivity extends AppCompatActivity {
                             if(jsonObject != null){
                                 Toast.makeText(ApplyJobActivity.this,"Success to Apply Job", Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent(ApplyJobActivity.this, SelesaiJobActivity.class);
-                                intent.putExtra("jobseekerId", jsonObject.getInt("id"));
+                                intent.putExtra("jobseekerId", jobseekerId);
+                                intent.putExtra("jobName", jobName);
+                                intent.putExtra("fee", jobFee);
+                                intent.putExtra("totalFee", totalFee);
                                 startActivity(intent);
                             }
                         }catch(JSONException e){
